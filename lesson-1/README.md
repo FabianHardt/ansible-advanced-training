@@ -3,17 +3,18 @@
 Hello everyone, let's have a great training together in the next 3 days. To do this, we will work on the following agenda.
 The following basic rules / hints apply for the following 3 days:
 
-- Unmute yourself at every time and ask some question
-  - There are no dump questions
+- Unmute yourself every time to ask a question
+  - There are no dumb questions
 - If you need a break, just let us know
-  - In chat or just tell us
-- If you need some help / support from us in any lab, just let us know
-- If your not that familiar with Linux, you can find a nice cheat sheet over here: https://cheatography.com/davechild/cheat-sheets/linux-command-line/
-- Please leave any VPN connections, before you start any work with Ansible on our Lab-Environmets
-  - This is also a good idea while using Miro
+  - By chat or just tell us
+- If you need some help or support from us in any lab, just let us know
+- If you're not that familiar with Linux, you can find a nice cheat-sheet over here: https://cheatography.com/davechild/cheat-sheets/linux-command-line/
+- Please close any VPN connections before you start working with Ansible in our lab environments
+  - This is also a good idea while using the Miro board
 
 ## Let's start our training
 
+Open the following link in your browser:
 https://miro.com/app/board/uXjVN3uMiPE=/?share_link_id=343257589076
 
 ## Agenda
