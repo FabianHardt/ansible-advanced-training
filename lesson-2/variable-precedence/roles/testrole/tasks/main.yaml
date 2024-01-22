@@ -1,0 +1,5 @@
+---
+
+- name: Debug print from testrole
+  ansible.builtin.debug:
+    msg: test_var={{ test_var | default("Undefined on the testrole level") }}

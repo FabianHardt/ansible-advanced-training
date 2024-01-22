@@ -1,0 +1,17 @@
+---
+- name: Testing
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Block to include role
+      block:
+        - name: Include DO role
+          ansible.builtin.include_role:
+            name: do_role
+        # # Some dummy error:
+        # - name: Do not count this as a failure
+        #   ansible.builtin.command: /usr/bin/false # in Linux: /bin/false
+      rescue:
+        - name: Include UNDO role
+          ansible.builtin.include_role:
+            name: undo_role

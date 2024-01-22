@@ -1,0 +1,6 @@
+[test_hosts]
+localhost
+
+[containers]
+test1 ansible_connection=docker
+test2 ansible_connection=docker

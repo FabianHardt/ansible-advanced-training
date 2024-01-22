@@ -1,0 +1,5 @@
+---
+- name: Revove the dummy file
+  ansible.builtin.file:
+    path: /tmp/testfile.txt
+    state: absent

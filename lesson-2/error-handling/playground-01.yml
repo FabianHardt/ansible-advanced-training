@@ -1,0 +1,8 @@
+---
+- name: Testing
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Do not count this as a failure
+      ansible.builtin.command: /usr/bin/false # in Linux: /bin/false
+      ignore_errors: true

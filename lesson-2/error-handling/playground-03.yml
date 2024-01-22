@@ -1,0 +1,11 @@
+---
+- name: Testing
+  hosts: test_hosts
+  gather_facts: false
+  tasks:
+    - name: This executes, fails, and the failure is ignored
+      ansible.builtin.command: /bin/true
+      ignore_unreachable: true
+
+    - name: This executes, fails, and ends the play for this host
+      ansible.builtin.command: /bin/true

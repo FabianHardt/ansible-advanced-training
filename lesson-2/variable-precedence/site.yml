@@ -1,0 +1,6 @@
+---
+- name: Sample for variable precedence
+  hosts: containers
+  gather_facts: true
+  roles:
+    - role: testrole
