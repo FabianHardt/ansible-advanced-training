@@ -1,0 +1,38 @@
+---
+- name: polling demo
+  hosts: schulung
+  tasks:
+    - name: Simulate long running op (15 sec), wait for up to 45 sec, poll every 5 sec
+      ansible.builtin.command: /bin/sleep 15
+      async: 45
+      poll: 5
+      changed_when: false
+
+    - name: print message
+      ansible.builtin.debug:
+        msg: 'slept enough!'
+
+    - name: Wait for user
+      ansible.builtin.pause:
+        prompt: please press any key to continue
+        echo: false
+
+    - name: Run an async task
+      ansible.builtin.command: /bin/sleep 120
+      changed_when: false
+      async: 1000
+      poll: 0
+      register: mysleeper
+
+    - name: Do something completely different...
+      ansible.builtin.debug:
+        msg: "nice day for phishin', ain't it?"
+
+    - name: Check on an async task
+      async_status:
+        jid: "{{ mysleeper.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 100
+      delay: 10
+

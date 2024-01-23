@@ -1,0 +1,29 @@
+---
+- name: privilege escalation demo
+  hosts: schulung
+  tasks:
+    - name: create an unprivileged user (as root)
+      ansible.builtin.user:
+        name: dummy
+        comment: unprivileged user
+        shell: /bin/bash
+        password: "{{ 'nobodyKnowsMe' | password_hash('sha512', 'mystonesalt') }}"
+      become: true
+
+    - name: execute command as dummy user
+      ansible.builtin.shell: echo "now I am '$(id -un)'"
+      become: true
+      become_user: dummy
+      register: shellresponse
+      changed_when: shellresponse.rc == 0
+
+
+    - name: print output
+      ansible.builtin.debug:
+        var: shellresponse.stdout
+
+    - name: delete the unprivileged user
+      ansible.builtin.user:
+        name: dummy
+        state: absent
+      become: true
