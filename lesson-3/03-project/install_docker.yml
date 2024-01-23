@@ -1,0 +1,79 @@
+---
+- name: install docker engine on target host
+  hosts: schulung
+  tasks:
+    - name: install some required packages
+      ansible.builtin.apt:
+        state: present
+        name:
+          - ca-certificates
+          - gnupg
+        update_cache: true
+      become: true
+
+    - name: preprare directory for keyring if not exists
+      ansible.builtin.command:
+        cmd: install -m 0755 -d /etc/apt/keyrings
+      register: cmd_response
+      changed_when: cmd_response.rc == 0
+      failed_when: cmd_response.rc != 0
+      become: true
+
+    - name: fetch gpg key to local filesystem
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /tmp/dockergpg
+        mode: 0600
+        force: true
+
+    - name: create gpg keyfile and put it on the keyring
+      ansible.builtin.shell:
+        executable: /bin/bash   ## an Ubuntu quirk: by default this is `sh` which points to `/bin/dash`
+        cmd: |
+          set -ex
+          gpg --dearmor -o /etc/apt/keyrings/docker.gpg --yes < /tmp/dockergpg  ## redirection fails if file not found, `cat` won't
+          chmod a+r /etc/apt/keyrings/docker.gpg
+      changed_when: true
+      become: true
+
+    - name: collect os-release info
+      ansible.builtin.shell: | 
+        . /etc/os-release && echo "$VERSION_CODENAME"
+      register: os_release
+      changed_when: false
+
+    - name: collect architecture
+      ansible.builtin.shell: |
+        dpkg --print-architecture
+      register: architecture
+      changed_when: false
+        
+    - name: add repository to apt sources
+      ansible.builtin.apt_repository:
+        repo: deb [arch={{ architecture.stdout }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ os_release.stdout }} stable
+        filename: docker
+        state: present
+        update_cache: true
+      become: true
+
+    - name: install docker packages
+      ansible.builtin.apt:
+        state: present
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+      become: true
+
+    - name: test installation
+      ansible.builtin.command: docker run --rm hello-world
+      changed_when: false
+      become: true
+      register: docker_result
+
+    - name: print docker output
+      ansible.builtin.debug:
+        var: docker_result.stdout
+
