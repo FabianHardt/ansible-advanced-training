@@ -1,15 +1,22 @@
 ---
+
+# Example with explicit fact gathering and ignore_unreachable
+  # reffering to your questions
+
 - name: unreachable
   hosts: some_hosts
   gather_facts: false
+  ignore_unreachable: true
   tasks:
-    - name: print something
-      ansible.builtin.ping:
+    - block:
+      - name: print something
+        ansible.builtin.ping:
+        ignore_unreachable: true
+
+      - name: gather facts
+        ansible.builtin.setup:
+        # ignore_unreachable: true
+
+      - name: PING only active hosts
+        ansible.builtin.ping:
       ignore_unreachable: true
-
-    - name: gather facts
-      ansible.builtin.setup:
-      # ignore_unreachable: true
-
-    - name: PING only active hosts
-      ansible.builtin.ping:
