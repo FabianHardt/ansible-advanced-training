@@ -1,6 +1,7 @@
 ---
 - name: Module 'user' demo
   hosts: schulung
+  become: true
   vars:
     user_list:
       - user01
@@ -18,10 +19,10 @@
       ansible.builtin.user:
         name: "{{ item }}"
         shell: /bin/bash
-        groups: 
+        groups:
           - mail
           - news
           - irc
         append: yes
-        password: "{{ ( 'Say' + item | upper + 'AndEnter') | password_hash('sha512', 'mysupersecretsalt') }}"
+        password: "{{ ( 'Say' + item | upper + 'AndEnter') | password_hash('sha512', 'mysecretsalt') }}"
       with_items: "{{ user_list }}"
