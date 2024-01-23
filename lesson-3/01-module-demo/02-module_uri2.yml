@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    body1:
+      somerandomkey: "a totally arbitrary value"
+      anotherkey: "a most useful information"
+    body2:
+      somedifferentkey: "a different value"
+      key2: "a not so useful information"
+
+  roles:
+    - role: uri
+      body: "{{ body1 }}"
+    - role: uri
+      body: "{{ body2 }}"

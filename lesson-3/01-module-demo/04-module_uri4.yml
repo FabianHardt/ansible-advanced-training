@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    username: me
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      62326265303535336662353563653866666364363837376531373331393066346364616265643630
+      3239376161633864623836383433616465306566663134320a336264396333316635656432363262
+      31333061326236373237633731376534373537663363356132303162383837343838373537303131
+      3766346630643266330a613463386438383265396265666636653165373633663363646532663632
+      3331
+    base_url: http://httpbin.org/basic-auth
+  tasks:
+    - name: call a URI (GET)
+      ansible.builtin.uri:
+        url: "{{ base_url }}/{{ username }}/{{ password }}"
+        headers:
+          accept: application/json
+        user: "{{ username }}"
+        password: "{{ password }}"
+        force_basic_auth: true
+      register: response
+      ignore_errors: true
+      no_log: false
+
+    - name: print the response
+      debug:
+        var: response

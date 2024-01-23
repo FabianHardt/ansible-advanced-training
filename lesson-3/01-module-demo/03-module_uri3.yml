@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    username: me
+    password: mysecret
+    base_url: http://httpbin.org/basic-auth
+  tasks:
+    - name: call a URI (GET)
+      ansible.builtin.uri:
+        url: "{{ base_url }}/{{ username }}/{{ password }}"
+        headers:
+          accept: application/json
+        user: "{{ username }}"
+        password: "{{ password }}"
+        force_basic_auth: true
+      register: response
+      ignore_errors: true
+      no_log: false
+
+    - name: print the response
+      debug:
+        var: response

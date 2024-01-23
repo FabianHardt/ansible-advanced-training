@@ -1,0 +1,12 @@
+---
+- name: Command module demo
+  hosts: schulung
+  tasks:
+    - name: Execute the UNAME command
+      ansible.builtin.command: "uname -a"
+      register: unameout
+      changed_when: false
+
+    - name: print unameout.stdout_lines
+      ansible.builtin.debug:
+        var: unameout.stdout_lines

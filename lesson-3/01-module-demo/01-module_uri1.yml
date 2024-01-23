@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: call a URI (GET)
+      ansible.builtin.uri:
+        url:  https://galaxy.ansible.com/api/v1/platforms/
+      register: platforms
+      ignore_errors: true
+
+    - name: print the response
+      debug:
+        var: platforms

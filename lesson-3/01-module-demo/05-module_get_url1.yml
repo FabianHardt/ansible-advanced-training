@@ -1,0 +1,11 @@
+---
+- name: Module 'get_url' demo
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: get a file from URL
+      ansible.builtin.get_url:
+        url: http://httpbin.org/image/png
+        dest: /tmp/testimage.png
+        mode: 666
+        force: true

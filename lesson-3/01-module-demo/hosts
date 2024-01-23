@@ -1,0 +1,6 @@
+localhost ansible_connection=local
+
+[schulung]
+# remember to replace the following line with hostname and IP of *your* training VM!
+schulung_ibr ansible_host=10.1.2.5 ansible_ssh_private_key_file=~/.ssh/schulung_rsa
+

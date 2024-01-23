@@ -1,0 +1,27 @@
+---
+- name: Module 'user' demo
+  hosts: schulung
+  vars:
+    user_list:
+      - user01
+      - user02
+      - user03
+      - user04
+      - user05
+      - user06
+      - user07
+      - user08
+      - user09
+      - user10
+  tasks:
+    - name: add users to host
+      ansible.builtin.user:
+        name: "{{ item }}"
+        shell: /bin/bash
+        groups: 
+          - mail
+          - news
+          - irc
+        append: yes
+        password: "{{ ( 'Say' + item | upper + 'AndEnter') | password_hash('sha512', 'mysupersecretsalt') }}"
+      with_items: "{{ user_list }}"

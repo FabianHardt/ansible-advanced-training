@@ -1,0 +1,18 @@
+---
+- name: Test URI Module (POST)
+  ansible.builtin.uri:
+    url: "https://httpbin.org/post"
+    validate_certs: no
+    follow_redirects: none
+    headers:
+      Content-Type: application/json
+    method: POST
+    body_format: json
+    body: " {{ body|to_json }} "
+    return_content: true
+    timeout: 600
+  register: result
+
+- name: Print response of POST call
+  debug:
+    var: result.json.data
