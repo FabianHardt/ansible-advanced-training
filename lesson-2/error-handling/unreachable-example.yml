@@ -1,0 +1,15 @@
+---
+- name: unreachable
+  hosts: some_hosts
+  gather_facts: false
+  tasks:
+    - name: print something
+      ansible.builtin.ping:
+      ignore_unreachable: true
+
+    - name: gather facts
+      ansible.builtin.setup:
+      # ignore_unreachable: true
+
+    - name: PING only active hosts
+      ansible.builtin.ping:

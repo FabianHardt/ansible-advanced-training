@@ -4,3 +4,8 @@ localhost
 [containers]
 test1 ansible_connection=docker
 test2 ansible_connection=docker
+
+[some_hosts]
+test1 ansible_connection=docker
+test2 ansible_connection=docker
+unreachable_host ansible_connection=docker
