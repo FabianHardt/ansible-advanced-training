@@ -1,23 +1,8 @@
 ---
-- name: Testing
-  hosts: containers
-  gather_facts: true
-  any_errors_fatal: true
-  tasks:
-    - name: Do not count this as a failure
-      ansible.builtin.command: /usr/bin/false # in Linux: /bin/false
-      ignore_errors: true
-    - name: Error
-      ansible.builtin.command: /usr/bin/false # in Linux: /bin/false
-      when: inventory_hostname == 'test1'
-    - name: OK
-      ansible.builtin.command: /usr/bin/true # in Linux: /bin/false
-      # when: inventory_hostname == 'test1'
-
 # - name: Testing
 #   hosts: containers
 #   gather_facts: true
-#   max_fail_percentage: 60
+#   any_errors_fatal: false
 #   tasks:
 #     - name: Do not count this as a failure
 #       ansible.builtin.command: /usr/bin/false # in Linux: /bin/false
@@ -28,3 +13,18 @@
 #     - name: OK
 #       ansible.builtin.command: /usr/bin/true # in Linux: /bin/false
 #       # when: inventory_hostname == 'test1'
+
+- name: Testing
+  hosts: containers
+  gather_facts: true
+  max_fail_percentage: 60
+  tasks:
+    - name: Do not count this as a failure
+      ansible.builtin.command: /usr/bin/false # in Linux: /bin/false
+      ignore_errors: true
+    - name: Error
+      ansible.builtin.command: /usr/bin/false # in Linux: /bin/false
+      when: inventory_hostname == 'test1'
+    - name: OK
+      ansible.builtin.command: /usr/bin/true # in Linux: /bin/false
+      # when: inventory_hostname == 'test1'

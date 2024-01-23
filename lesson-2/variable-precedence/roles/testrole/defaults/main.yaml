@@ -1,1 +1,2 @@
 ---
+test_var: "This is test_var from role defaults folder"

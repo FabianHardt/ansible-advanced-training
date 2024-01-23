@@ -1,6 +1,6 @@
 ---
 - name: Testing
-  hosts: test_hosts
+  hosts: containers
   gather_facts: false
   tasks:
     - name: This executes, fails, and the failure is ignored

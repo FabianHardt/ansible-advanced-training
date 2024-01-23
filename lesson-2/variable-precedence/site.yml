@@ -2,5 +2,16 @@
 - name: Sample for variable precedence
   hosts: containers
   gather_facts: true
-  roles:
-    - role: testrole
+  vars:
+    test_var: "This is a var directly from our play"
+  vars_files:
+    - vars/file.yml
+  # roles:
+  #   - role: testrole
+  #     test_var: This is the value passed to the role in the play
+  tasks:
+    - name: Include role testrole
+      ansible.builtin.include_role:
+        name: testrole
+      vars:
+        test_var: "I'm inluded role"
