@@ -1,0 +1,117 @@
+---
+- name: basic templating
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    # Note: we do not need the template module because we do not 
+    #       read a template from a .j2 file nor do we copy it to
+    #       the remote host.
+    - name: basic control structure
+      vars:
+        timezone: Europe/Berlin
+      ansible.builtin.set_fact:
+        t1: >-
+          {% if time_zone is defined %}
+          clock timezone is {{ time_zone }};
+          {% else %}
+          no timezone defined
+          {% endif %}
+
+
+    # Note: we are using YAML block scalars here:
+    #       '>-' and '|-' have an effect on how newlines are handled
+    #       see: https://yaml-multiline.info/
+    - name: loop through a list
+      vars:
+        dns_servers:
+          - 1.1.1.1
+          - 8.8.8.8
+      ansible.builtin.set_fact:
+        t2: |-
+          {% for server in dns_servers %}
+          dns server {{ server }};
+          {% endfor %}
+
+
+    # Note: to loop through a dictionary call item() method that will
+    #        return two values, key and value of the item.
+    - name: loop through a dictionary
+      vars:
+        vlans:
+          10: office first floor
+          20: directors suite
+          30: penthouse
+      ansible.builtin.set_fact:
+        t3: |-
+          {% for id,descr in vlans.items() %}
+          VLAN #{{ id }}: {{ descr }}
+          {% endfor %}
+
+
+    # Note: inside loops `loop.last` is true for the last element
+    - name: work with maps
+      vars:
+        users:
+          - name: bartb
+            firstname: Bartholomew
+            lastname: Bronstein
+            uid: 61304
+            active: true
+          - name: olgah
+            firstname: Olga
+            lastname: Horowitz
+            uid: 61305
+            active: false
+          - name: jamesd
+            firstname: James
+            lastname: Doolittle
+            uid: 61306
+            active: true
+      ansible.builtin.set_fact:
+        t4: |-
+          {% for user in users %}
+          {% if user.active %}
+          User {{ user.name }} ({{ user.uid }}) {
+            first name: {{ user.firstname }},
+            last name: {{ user.lastname }}
+          }{% if not loop.last %},
+          {% endif %}
+          {% endif %}
+          {% endfor %}
+
+    - name: show "magic" loop var
+      vars:
+        alist:
+          - one
+          - two
+          - three
+      ansible.builtin.set_fact:
+        t5: |
+          {% for item in alist %}
+            {{ item }} ({{ loop.index }}): 
+              loop.first={{ loop.first }}
+              loop.last={{ loop.last }}
+          {% endfor %}
+
+
+    # Note: Jinja2 has some interesting scoping behaviour
+    #       see: https://jinja.palletsprojects.com/en/3.0.x/templates/#assignments
+    - name: update variable in loop
+      vars:
+        counter: 11
+      ansible.builtin.set_fact:
+        t6: |
+          {% set ns = namespace(jcounter = counter) %}
+          {% for i in range(12,15) %}
+          IDX-{{ i }}
+            before: {{ ns.jcounter }}
+          {% set ns.jcounter = ns.jcounter + i %}
+            after: {{ ns.jcounter }}
+          {% endfor %}
+          ========================
+          total: {{ ns.jcounter }}
+
+
+

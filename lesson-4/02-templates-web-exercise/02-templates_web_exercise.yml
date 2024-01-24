@@ -1,0 +1,7 @@
+---
+- name: a basic templating demo
+  hosts: alpines
+  vars: {}
+  roles:
+    - demo
+

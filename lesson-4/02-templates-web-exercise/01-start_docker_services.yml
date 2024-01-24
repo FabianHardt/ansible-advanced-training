@@ -1,0 +1,6 @@
+---
+- name: start docker services
+  hosts: alpines
+  gather_facts: true
+  roles:
+    - start_docker_services

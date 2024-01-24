@@ -1,0 +1,12 @@
+# Minimal example using remote Docker daemon
+plugin: community.docker.docker_containers
+#docker_host: tcp://oc-ansible-schulung-ibr.centralus.cloudapp.azure.com:2375
+docker_host: unix://var/run/docker.sock
+verbose_output: false
+debug: false
+strict: true
+
+groups:
+  busyboxes: (docker_config['Image'] is defined and 'busybox' in docker_config['Image'])
+  alpines: (docker_config['Image'] is defined and 'alpine' in docker_config['Image'])
+  finance: (docker_config['Labels']['com.example.department'] is defined and 'Finance' in docker_config['Labels']['com.example.department'])

@@ -1,0 +1,82 @@
+---
+- name: more templating
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - name: Ansible loop simple example
+      vars:
+        things: "{{ range(1,10) }}"
+      ansible.builtin.set_fact:
+        out: |
+          counter={{ item }}
+      loop: "{{ things }}"
+
+    # - debug:
+    #     var: things       ## variable `things` is out of scope here
+
+
+    - name: Ansible loop dict example (keys only)
+      vars:
+        static_ips:
+          host1: 10.0.0.1
+          host2: 10.0.0.2
+          host3: 10.0.1.1
+      ansible.builtin.set_fact:
+        out: item={{ item }}
+      loop: "{{ static_ips.keys() | list }}"
+
+    - name: Ansible loop dict example (values only)
+      vars:
+        static_ips:
+          host1: 10.0.0.1
+          host2: 10.0.0.2
+          host3: 10.0.1.1
+      ansible.builtin.set_fact:
+        out: item={{ item }}
+      loop: "{{ static_ips.values() | list }}"
+
+    - name: Ansible loop dict example
+      vars:
+        static_ips:
+          host1: 10.0.0.1
+          host2: 10.0.0.2
+          host3: 10.0.1.1
+      ansible.builtin.set_fact:
+        out: |
+          item={{ item }}
+          key: {{ item[0] }}
+          value: {{ item[1] }}
+      loop: "{{ static_ips.items() | list }}"
+
+    - name: Ansible loop dict example 2
+      vars:
+        static_ips:
+          host1: 10.0.0.1
+          host2: 10.0.0.2
+          host3: 10.0.1.1
+      ansible.builtin.set_fact:
+        out: |
+          item={{ item }}
+          key: {{ item.key }}
+          value: {{ item.value }}
+      loop: "{{ static_ips | dict2items }}"
+        
+
+    - name: type casting and debugging
+      vars:
+        a_string: "54321"
+      ansible.builtin.set_fact:
+        out: |
+          - {{ a_string | type_debug }}
+          - {{ a_string | int | type_debug }} (casted to int)
+          - {{ a_string + "9" }} = 54330? No, 543219!
+          - {{ a_string|int + 9 }} = 54330
+        # - {{ a_string + 9 }} = 54330? Error! can only concatenate str (not "int") to str
+
+
+    - name: set default values
+      ansible.builtin.set_fact:
+        out: |
+          this variable has a default value: {{ not_set | default('I´m a default') }}

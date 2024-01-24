@@ -1,0 +1,10 @@
+---
+- name: render the template
+  ansible.builtin.template:
+    src: demo_template.j2
+    dest: /tmp/index.html
+    mode: 0664
+    owner: root
+    group: root
+
+

@@ -1,0 +1,23 @@
+---
+- name: copy index.html to target host
+  ansible.builtin.copy:
+    src: index.html
+    dest: /tmp/
+    mode: 0666
+    owner: root
+    group: root
+    force: true
+
+# - name: run 'docker compose start' on target host
+#   ansible.builtin.command: docker compose -p example -f /home/sysadmin/project/docker-compose.yaml start
+#   delegate_to: "{{ groups['schulung'][0] }}"
+#   become: true
+#   changed_when: false
+#   register: output
+#   run_once: true        # for this task we are leaving the 'hosts'-loop and execute it exactly once
+
+# - name: print output
+#   ansible.builtin.debug:
+#     var: output
+#     verbosity: 1
+#   run_once: true

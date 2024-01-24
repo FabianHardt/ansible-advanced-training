@@ -1,0 +1,45 @@
+---
+- name: more templating
+  hosts: localhost
+  gather_facts: false
+
+  ## Examples of lookup plugin use
+  #   complete list of plugins at https://docs.ansible.com/ansible/latest/collections/index_lookup.html
+
+  tasks:
+    - name: lookup file example
+      vars:
+        motd_value: "{{ lookup('ansible.builtin.file', 'motd') }}"  ## Syntax: `lookup(<plugin name>, <path and file name>)
+      ansible.builtin.debug:
+        msg: "motd is: \n'{{ motd_value }}'"
+
+
+    ## try with `errors=warn` or `errors=strict` (the default)
+    - name: ignore errors
+      ansible.builtin.debug: 
+        msg: "{{ lookup('file', '/nosuchfile', errors='ignore') }}"
+
+
+    - name: lookup ini example
+      vars:
+        property_b: "{{ lookup('ansible.builtin.ini', 'propertyB', type='ini', section='all', file='props.ini') }}"
+      ansible.builtin.debug:
+        msg: "Property B has value: {{ property_b }}"
+
+
+    - name: lookup ini query example
+      vars:
+        property_a: "{{ query('ansible.builtin.ini', 'propertyA', type='ini', section='all', file='props.ini') }}"
+      ansible.builtin.debug:
+        msg: "Property A has value: {{ property_a }}"
+
+
+    - name: lookup template example
+      vars:
+        title: A wonderful morning
+        paragraph: |
+          One morning, when Gregor Samsa woke from troubled dreams, 
+          he found himself transformed in his bed into a horrible vermin.
+        code: "{{ lookup('ansible.builtin.file', 'useless.java') }}"
+      ansible.builtin.debug:
+        msg: "{{ lookup('ansible.builtin.template', './some_template.j2') }}"
