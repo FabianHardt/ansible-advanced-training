@@ -1,0 +1,52 @@
+---
+- name: Hashicorp Vault demo
+  hosts: localhost
+  gather_facts: false
+  vars:
+    # vault_token: hvs.s0MJAQILxeYPPv5QUZW0aWca
+
+    ## pass --vault-id dev@passwordfile to ansible-playbook
+    vault_token: !vault |
+      $ANSIBLE_VAULT;1.2;AES256;dev
+      62663332663432393466303534376438656162353531316265376238643461346134306630636432
+      3533386133623363326664323761353432333833383064310a643932663639626464353438323431
+      66626666623165636364313135343636633561303333336262303739653761373264356138656665
+      6530313134613039660a393730313633346231633730653335303834383062313032356163303662
+      64383833656336653733646535376462363662383336666366653735663138323133
+
+    ## in runner container this has to be the IP of docker hosts:
+    #     (lookup with ip route within the container and figure the ip
+    #       of the default gateway = docker host)
+    vault_url: http://172.17.0.1:8200
+
+
+  tasks:
+
+    ## Note: this example employs nested Jinja templates - which is an antipattern!
+    ## BAD EXAMPLE:
+    - name: lookup plugin demo
+      ansible.builtin.debug:
+        msg: "{{ lookup('hashi_vault', '/kv/data/test:somesecretkey token={{ vault_token }}  url={{ vault_url }}') }}"
+
+    ## GOOD EXAMPLE:
+    - name: lookup plugin demo
+      ansible.builtin.debug:
+        msg: "{{ lookup('hashi_vault', '/kv/data/test:somesecretkey token=' ~ vault_token ~ ' url=' ~ vault_url) }}"
+
+
+    - name: read secret with vault_kv2_get module
+      community.hashi_vault.vault_kv2_get:
+        url: "{{ vault_url }}"
+        engine_mount_point: kv
+        path: /test
+        auth_method: token
+        token: "{{ vault_token }}"
+      register: response
+
+    - name: print respose
+      ansible.builtin.debug:
+        var: response.data.data
+
+    - name: print secret
+      ansible.builtin.debug:
+        msg: "The answer is {{ response.data.data.anothersupersecretkey }}"
