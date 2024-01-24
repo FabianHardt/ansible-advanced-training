@@ -9,7 +9,7 @@
     force: true
 
 - name: run 'docker compose create' on target host
-  ansible.builtin.command: docker compose -p example -f /home/sysadmin/project/docker-compose.yaml create
+  ansible.builtin.command: docker compose -p example -f /home/sysadmin/project/docker-compose.yaml up -d
   changed_when: false
   register: output
 
