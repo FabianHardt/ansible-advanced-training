@@ -1,0 +1,69 @@
+---
+- name: copy docker_compose.yml to target host
+  ansible.builtin.copy:
+    src: docker-compose.yaml
+    dest: /home/sysadmin/project/
+    mode: 0660
+    owner: sysadmin
+    group: sysadmin
+    force: true
+
+- name: run 'docker compose create' on target host
+  ansible.builtin.command: docker compose -p example -f /home/sysadmin/project/docker-compose.yaml create
+  changed_when: false
+  register: output
+
+- name: print output
+  ansible.builtin.debug:
+    var: output
+    verbosity: 1
+
+## alternative implementation  with docker_compose module:
+
+# - name: Start project with inline definition
+#   community.docker.docker_compose:
+#     docker_host: "{{ docker_host }}"
+#     api_version: "3.8"
+#     state: present
+#     stopped: true
+#     project_name: example
+#     definition:
+#       version: "3.8"
+#       services:
+#         app:
+#           image: alpine:latest
+#           container_name: app1
+#           labels:
+#             com.example.description: "Accounting webapp"
+#             com.example.department: "Finance"
+#             com.example.type: "Application"
+#         httpd1:
+#           image: busybox:latest
+#           container_name: web1
+#           command: httpd -p 80 -h /var/www/
+#           restart: always
+#           expose:
+#             - 80:80
+#           labels:
+#             com.example.description: "Static web 1"
+#             com.example.department: "Finance"
+#             com.example.type: "Content Server"
+#         httpd2:
+#           image: busybox:latest
+#           container_name: web2
+#           command: httpd -p 81 -h /var/www/
+#           restart: always
+#           expose:
+#             - 81:81
+#           labels:
+#             com.example.description: "Static web 2"
+#             com.example.department: "Finance"
+#             com.example.type: "Content Server"
+#   register: output
+
+# - name: Verify that the app and web services are running
+#   ansible.builtin.assert:
+#     that:
+#       - "output.services.app.example_app_1.state.running"
+#       - "output.services.httpd1.example_httpd1_1.state.running"
+#       - "output.services.httpd2.example_httpd2_1.state.running"

@@ -1,0 +1,7 @@
+---
+- name: start some example services
+  hosts: schulung
+  vars:
+    docker_host: tcp://oc-ansible-schulung-ibr.centralus.cloudapp.azure.com:2375
+  roles:
+    - start_services

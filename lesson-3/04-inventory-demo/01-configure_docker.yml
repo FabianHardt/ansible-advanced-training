@@ -1,0 +1,6 @@
+---
+- name: configure docker for remote ops
+  hosts: schulung
+  roles:
+    - configure_docker
+

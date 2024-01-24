@@ -1,0 +1,39 @@
+---
+- name: run entire block as root 
+  become: true
+  block:
+    - name: create daemon.json in /etc/docker
+      ansible.builtin.copy:
+        content: '{"hosts": ["tcp://0.0.0.0:2375", "unix:///var/run/docker.sock"]}'
+        dest: /etc/docker/daemon.json
+        mode: 0644
+        owner: root
+        group: root
+        force: true
+        backup: true
+
+    - name: create path
+      ansible.builtin.file:
+        path: /etc/systemd/system/docker.service.d
+        mode: 0751
+        owner: root
+        group: root
+        state: directory
+
+    - name: add /etc/systemd/system/docker.service.d/override.conf
+      ansible.builtin.copy:
+        src: override.conf
+        dest: /etc/systemd/system/docker.service.d/override.conf
+        mode: 0644
+        owner: root
+        group: root
+        force: true
+        backup: true
+
+    - name: Reload the systemd daemon + restart Docker
+      ansible.builtin.systemd:
+        daemon_reload: true
+        name: docker.service
+        state: restarted
+
+

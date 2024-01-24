@@ -1,0 +1,20 @@
+# Minimal example using remote Docker daemon
+plugin: community.docker.docker_containers
+# docker_host: unix://var/run/docker.sock  ## (has to be mounted in runner)
+docker_host: tcp://10.1.2.5:2375
+verbose_output: false
+debug: true
+strict: true
+
+# keyed_groups:
+#   - key: docker_config.Labels['com.example.department']
+#     prefix: 'label'
+#     parent_group: docker
+#   - key: docker_config.Labels['com.example.type']
+#     prefix: 'label'
+#     parent_group: docker
+
+# groups:
+#   busyboxes: (docker_config['Image'] is defined and 'busybox' in docker_config['Image'])
+#   alpines: (docker_config['Image'] is defined and 'alpine' in docker_config['Image'])
+#   finance: (docker_config['Labels']['com.example.department'] is defined and 'Finance' in docker_config['Labels']['com.example.department'])
