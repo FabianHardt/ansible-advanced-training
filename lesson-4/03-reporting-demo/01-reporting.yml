@@ -1,0 +1,73 @@
+---
+- name: initialize reporting-demo
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    
+    # Remember (set_fact):
+    # - This action allows setting variables associated to the **current host** = localhost.
+    # - variables will be available to subsequent plays during an ansible-playbook
+    - name: init reporting variable
+      ansible.builtin.set_fact:
+        report: |
+          REPORT:
+          =======
+    
+    - name: print report
+      ansible.builtin.debug:
+        msg: "{{ report }}"
+
+- name: doing stuff on other host(s)
+  hosts: schulung
+  gather_facts: false
+  tasks:
+    - name: block-rescue construct
+      block:
+
+      - name: this task should fail
+        ignore_unreachable: true
+        register: taskresult
+        ansible.builtin.template:
+          src: "nothere.j2"
+          dest: /tmp/
+          mode: 0666
+
+      - name: fail when unreachable
+        when: taskresult.unreachable is defined
+        ansible.builtin.fail:
+          msg: Host '{{ inventory_hostname }}' unreachable!
+
+  
+      rescue:
+
+        # Remember: we are not on localhost so we have to access variable `report`
+        #           via the hostvars array.
+        #           Besides, to update `report` on host `localhost` we have to 
+        #           delegate the facts as well!
+        - name: add entry to report
+          delegate_to: localhost
+          delegate_facts: true
+          ansible.builtin.set_fact:
+            report: |
+              {{ hostvars.localhost.report }}
+              Error in Task: '{{ ansible_failed_task.name | default('unknown') }}' on host '{{ inventory_hostname }}'
+                    Message: '{{ ansible_failed_result.msg }}'
+
+        - name: use `ansible_failed_task`
+          ansible.builtin.debug:
+            var: ansible_failed_task
+            verbosity: 2
+
+        - name: use `ansible_failed_result`
+          ansible.builtin.debug:
+            var: ansible_failed_result
+            verbosity: 2
+
+
+- name: print report
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: print the report
+      ansible.builtin.debug:
+        msg: "{{ report }}"
