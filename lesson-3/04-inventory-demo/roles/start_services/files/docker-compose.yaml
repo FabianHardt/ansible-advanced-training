@@ -13,7 +13,7 @@ services:
     image: python:alpine
     container_name: app2
     command: python -m http.server 80 -d /tmp/
-    expose:
+    ports:
       - 80:80
     labels:
       com.example.description: "Important Web App"
@@ -23,7 +23,7 @@ services:
     image: busybox:latest
     container_name: web1
     command: httpd -p 81 -h /var/www/ -f
-    expose:
+    ports:
       - 81:81
     labels:
       com.example.description: "Static web 2"
