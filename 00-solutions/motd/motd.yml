@@ -1,0 +1,47 @@
+---
+- name: motd-exercise
+  hosts: containers
+  ignore_unreachable: true
+  gather_facts: false
+  become: false
+  vars:
+    motd_path: /etc/motd
+    debian_motd: |
+      This Machine is administered by Ansible.
+      Diese Maschine wird von Ansible administriert.
+
+      OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+      Kernel: {{ ansible_kernel }}
+      Hostname: {{ ansible_hostname }}
+
+      I'm watching you, Bernd!
+
+    alpine_motd: |
+      This Machine is administered by Ansible.
+      Esta maquina esta administrada por Ansible.
+
+      OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+      Kernel: {{ ansible_kernel }}
+      Hostname: {{ ansible_hostname }}
+
+      I'm watching you, Jose!
+
+  tasks:
+    - name: gather facts
+      ansible.builtin.setup:
+
+    - name: update the motd file
+      when: ansible_os_family | default('none') == "Alpine"
+      ansible.builtin.copy:
+        dest: "{{ motd_path | default('/tmp/motd') }}"
+        mode: 0444
+        backup: true
+        content: "{{ alpine_motd }}"
+
+    - name: update the motd file
+      when: ansible_os_family | default('none') == "Debian"
+      ansible.builtin.copy:
+        dest: "{{ motd_path | default('/tmp/motd') }}"
+        mode: 0444
+        backup: true
+        content: "{{ debian_motd }}"

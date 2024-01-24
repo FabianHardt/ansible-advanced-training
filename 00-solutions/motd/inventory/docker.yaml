@@ -1,0 +1,9 @@
+plugin: community.docker.docker_containers
+# docker_host: unix://var/run/docker.sock
+docker_host: tcp://10.1.2.5:2375
+verbose_output: true
+debug: true
+strict: true
+
+groups:
+  containers: docker_config['Image'] is defined
