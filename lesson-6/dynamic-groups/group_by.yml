@@ -1,0 +1,20 @@
+---
+- name: Talk to containers just so we can learn about them
+  hosts: containers
+  tasks:
+    - name: DEBUG | Print OS of the container
+      ansible.builtin.debug:
+        msg: "OS: {{ ansible_distribution }}"
+    - name: Classify hosts depending on their OS distribution
+      ansible.builtin.group_by:
+        key: os_{{ ansible_facts['distribution'] }}
+
+# now just on the CentOS hosts...
+
+- name: Run on dynamic host list
+  hosts: os_CentOS
+  gather_facts: false
+  tasks:
+    - name: I'm on a CentOS host
+      ansible.builtin.debug:
+        msg: "Hier bin ich auf: {{ inventory_hostname }}"
