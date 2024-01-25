@@ -7,6 +7,26 @@
 #
 # Author: XXX
 
-- name: "Start our role {{ ansible_role_name }}"
+- name: Debug Hello World
   ansible.builtin.debug:
-    msg: "Let's go: {{ ansible_role_name }}"
+    msg: "Hello World from opitz/samples collection!"
+
+# - name: Create a file called '/tmp/testfile.txt' with the content 'hello world'.
+#   ansible.builtin.copy:
+#     content: "Hello World from opitz/samples collection"
+#     dest: /tmp/testfile.txt
+#     mode: 0666
+#     force: false
+
+# - name: "Add sign to file /tmp/testfile.txt"
+#   opitz.samples.signfile:
+#     name: John Wayne
+#     path: "/tmp/testfile.txt"
+#   register: signfile_result
+
+# - name: DEBUG print signfile result
+#   ansible.builtin.debug:
+#     msg:
+#       - "{{ signfile_result }}"
+#       - "Changed={{ signfile_result.changed | lower }} Stat={{ signfile_result.stat | lower }} Path={{ signfile_result.path }}"
+

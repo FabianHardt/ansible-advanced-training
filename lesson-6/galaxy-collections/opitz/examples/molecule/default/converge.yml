@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: "Include hello_world role"
+      include_role:
+        name: "opitz.examples.hello_world_role"

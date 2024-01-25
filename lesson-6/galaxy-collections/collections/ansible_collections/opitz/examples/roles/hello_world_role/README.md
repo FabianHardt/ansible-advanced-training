@@ -31,4 +31,4 @@ Including an example of how to use your role (for instance, with variables passe
 Author Information
 ------------------
 
-MMS Ansible Team
+Ansible Team

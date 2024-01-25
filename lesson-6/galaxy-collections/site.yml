@@ -6,3 +6,9 @@
     - name: Include role from collection
       ansible.builtin.include_role:
         name: opitz.examples.hello_world_role
+
+    - name: Test upper filter
+      vars:
+        str_var: "This is a great Ansible Training :-)"
+      ansible.builtin.debug:
+        msg: "{{ str_var | opitz.examples.opitz_to_upper }}"

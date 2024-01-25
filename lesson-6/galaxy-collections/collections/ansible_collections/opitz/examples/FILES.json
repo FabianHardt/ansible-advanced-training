@@ -8,10 +8,52 @@
    "format": 1
   },
   {
+   "name": "molecule",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "molecule/default",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "molecule/default/converge.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "06aaa433fc186619ae98f44f3baf55c7dd7bd7104837cc09efd57edfda705d64",
+   "format": 1
+  },
+  {
+   "name": "molecule/default/molecule.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "92ad56518d0efbc6a72ae548d8a489d811ee5a46c5e9b0213252131c3d569f14",
+   "format": 1
+  },
+  {
    "name": "plugins",
    "ftype": "dir",
    "chksum_type": null,
    "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/filter",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/filter/opitz_filters.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "64035c8cc076680dbda2ff505c03fa9af4faa0af010a1de04389485748bdb460",
    "format": 1
   },
   {
@@ -74,7 +116,7 @@
    "name": "roles/hello_world_role/tasks/main.yml",
    "ftype": "file",
    "chksum_type": "sha256",
-   "chksum_sha256": "fdd4b918cfcac853bf62459c16205219f54d97d49ddd3b03eb6117244ea0138a",
+   "chksum_sha256": "67d88121fca1753ff57c31044fc21cc5b95b20974f0fb06c1bf5aead7cfb88bf",
    "format": 1
   },
   {
@@ -130,7 +172,7 @@
    "name": "roles/hello_world_role/README.md",
    "ftype": "file",
    "chksum_type": "sha256",
-   "chksum_sha256": "50238c5bbbd09dfd2894841a7da75c61d89638fbcc5c15adbb67d7ad6fbcd298",
+   "chksum_sha256": "9fdfd8119128045244d514f65b704dafaaee736dad2c31befdc2828f11670585",
    "format": 1
   },
   {
