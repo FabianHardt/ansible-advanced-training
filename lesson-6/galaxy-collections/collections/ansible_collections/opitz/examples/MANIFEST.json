@@ -1,0 +1,33 @@
+{
+ "collection_info": {
+  "namespace": "opitz",
+  "name": "examples",
+  "version": "1.0.0",
+  "authors": [
+   "Fabian Hardt"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "dummy",
+   "debug"
+  ],
+  "description": "This is our trainings dummy collection",
+  "license": [
+   "GPL-2.0-or-later"
+  ],
+  "license_file": null,
+  "dependencies": {},
+  "repository": "http://example.com/repository",
+  "documentation": "http://docs.example.com",
+  "homepage": "http://example.com",
+  "issues": "http://example.com/issue/tracker"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "d15c1ce6bd788f2f57d51ce9a1a7bb8dc6ae9fa3777a5b1a7b35208b0e3c081b",
+  "format": 1
+ },
+ "format": 1
+}

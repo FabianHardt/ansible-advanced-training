@@ -1,0 +1,5 @@
+---
+roles:
+  - name: dummy
+    src: https://github.com/FabianHardt/ansible-role-dummy.git
+    version: 1.0.0

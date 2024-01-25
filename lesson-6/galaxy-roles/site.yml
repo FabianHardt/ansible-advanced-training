@@ -1,0 +1,8 @@
+---
+- name: Just a dummy play
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Start our new role
+      ansible.builtin.include_role:
+        name: dummy_role

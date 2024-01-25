@@ -1,0 +1,8 @@
+---
+- name: Test play
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Include git role
+      ansible.builtin.include_role:
+        name: dummy

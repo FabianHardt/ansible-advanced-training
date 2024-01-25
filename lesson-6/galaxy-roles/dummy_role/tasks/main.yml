@@ -1,0 +1,16 @@
+---
+# Here comes the logic...
+#
+# COMPANY EXAMPLE
+#
+# copyright by ...
+#
+# Author: XXX
+
+- name: "Start our role {{ ansible_role_name }}"
+  ansible.builtin.debug:
+    msg: "Let's go: {{ ansible_role_name }}"
+
+- name: "First"
+  ansible.builtin.debug:
+    msg: "Debug output"
