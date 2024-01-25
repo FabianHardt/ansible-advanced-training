@@ -1,0 +1,12 @@
+- name: Sample playbook
+  hosts: localhost
+  tasks:
+    - name: Test our module
+      samplemodule:
+        name: Fabian
+        age: 32
+      register: output
+
+    - name: Debug the output
+      ansible.builtin.debug:
+        msg: "{{ output.result }}"

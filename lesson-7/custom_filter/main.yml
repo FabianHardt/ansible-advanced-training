@@ -1,0 +1,9 @@
+- name: Sample playbook
+  hosts: localhost
+  tasks:
+    - name: Set dummy variable
+      ansible.builtin.set_fact:
+        deploy_version: 2.2.1
+    - name: Debug the output
+      ansible.builtin.debug:
+        msg: "{{ deploy_version | missing_deployment('Version', 'not existing!') }}"
