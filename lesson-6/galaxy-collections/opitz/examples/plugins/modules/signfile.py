@@ -89,7 +89,7 @@ def run_module():
         # check if a sign is already in the file
         with open(module.params['path']) as fp:
             all_lines = fp.readlines()
-        if(all_lines[0][0:5] == "SIGN:"):
+        if(all_lines[0][0:5] == "SIGNATURE:"):
             result['changed'] = False
     else:
         all_lines = []

@@ -1,0 +1,30 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Read status of our testfile
+      ansible.builtin.stat:
+        path: "/tmp/testfile-fha.txt"
+      register: stat_result
+
+    - name: Check if file exists
+      ansible.builtin.assert:
+        that: stat_result.stat.exists
+        fail_msg: "ERROR - file not there"
+        success_msg: "OK - everything is fine"
+
+    - name: Read /tmp/testfile.txt from remote host
+      ansible.builtin.slurp:
+        src: /tmp/testfile.txt
+      register: file_content_slurp
+
+    - name: Check the content of file /tmp/testfile.txt
+      vars:
+        file_content: "{{ file_content_slurp['content'] | b64decode }}"
+      ansible.builtin.assert:
+        that:
+          - file_content is match("SIGNATURE:")
+          - file_content is search("Hello World from opitz/samples collection")
+        fail_msg: "ERR - Content of the file /tmp/testfile.txt is incorrect ({{ file_content }})"
+        success_msg: "OK - The content of the file is correct"
