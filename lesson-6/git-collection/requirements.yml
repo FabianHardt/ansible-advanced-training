@@ -1,0 +1,5 @@
+---
+collections:
+  - name: https://github.com/FabianHardt/ansible-collection-dummy.git
+    type: git
+    version: main # develop (version 1.0.1)
