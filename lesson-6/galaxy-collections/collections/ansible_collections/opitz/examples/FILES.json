@@ -57,6 +57,20 @@
    "format": 1
   },
   {
+   "name": "plugins/modules",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/signfile.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "069dd411b1fa4dae7ebddc1f4c33f023c677bcd024d77d86441a19665fe7cfc1",
+   "format": 1
+  },
+  {
    "name": "plugins/README.md",
    "ftype": "file",
    "chksum_type": "sha256",
@@ -116,7 +130,7 @@
    "name": "roles/hello_world_role/tasks/main.yml",
    "ftype": "file",
    "chksum_type": "sha256",
-   "chksum_sha256": "67d88121fca1753ff57c31044fc21cc5b95b20974f0fb06c1bf5aead7cfb88bf",
+   "chksum_sha256": "1020d2583d8a7ac4aaa301ccdd3079a8b73a0ad0c190b9d056ab866a0738b859",
    "format": 1
   },
   {
